@@ -1,0 +1,53 @@
+.control {
+	margin: 1rem 0;
+	display: flex;
+	align-items: stretch;
+	flex-direction: column;
+}
+
+.control label,
+.control input {
+	display: block;
+}
+
+.control label {
+	font-weight: bold;
+	flex: 1;
+	color: #464646;
+	margin-bottom: 0.5rem;
+}
+
+.control input {
+	flex: 3;
+	font: inherit;
+	padding: 0.35rem 0.35rem;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.control input:focus {
+	outline: none;
+	border-color: #a76c00;
+	background: #f6dbfc;
+}
+
+.control.invalid input {
+	border-color: red;
+	background: #fbdada;
+}
+
+::backdrop {
+	height: 100vh;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+@media (min-width: 768px) {
+	.control {
+		align-items: center;
+		flex-direction: row;
+	}
+}
