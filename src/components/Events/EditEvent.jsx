@@ -70,11 +70,7 @@ export default function EditEvent() {
 		);
 	}
 
-	return (
-		<>
-			<Modal onClose={handleClose}>{content}</Modal>;
-		</>
-	);
+	return <Modal onClose={handleClose}>{content}</Modal>;
 }
 
 export function loader({ params }) {
