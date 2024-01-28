@@ -1,9 +1,11 @@
 import { QueryClient } from "@tanstack/react-query";
+import dotenv from "dotenv";
 
+dotenv.config();
 export const queryClient = new QueryClient();
 
 export async function fetchEvents({ signal, searchTerm, max }) {
-	let url = "http://localhost:3000/events";
+	let url = `${process.env.REACT_APP_API_URL}/events`;
 
 	if (searchTerm && max) {
 		url += "?search=" + searchTerm + "&max=" + max;

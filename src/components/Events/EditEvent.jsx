@@ -7,6 +7,7 @@ import {
 	useNavigation,
 } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
@@ -33,42 +34,42 @@ export default function EditEvent() {
 		navigate("../");
 	}
 
-	let content;
-
-	if (isError) {
-		content = (
-			<>
-				<ErrorBlock
-					title='Failed to laod event'
-					message={error.info?.message || "Failed to load events"}
-				/>
-				<div className='form-actions'>
-					<Link to='../' className='button'>
-						OK
-					</Link>
-				</div>
-			</>
-		);
-	}
-
-	if (data) {
-		content = (
-			<EventForm inputData={data} onSubmit={handleSubmit}>
-				{state === "submitting" ? (
-					<p>Sending data...</p>
-				) : (
-					<>
-						<Link to='../' className='button-text'>
-							Cancel
+	const content = useMemo(() => {
+		if (isError) {
+			return (
+				<>
+					<ErrorBlock
+						title='Failed to laod event'
+						message={error.info?.message || "Failed to load events"}
+					/>
+					<div className='form-actions'>
+						<Link to='../' className='button'>
+							OK
 						</Link>
-						<button type='submit' className='button'>
-							Update
-						</button>
-					</>
-				)}
-			</EventForm>
-		);
-	}
+					</div>
+				</>
+			);
+		}
+
+		if (data) {
+			return (
+				<EventForm inputData={data} onSubmit={handleSubmit}>
+					{state === "submitting" ? (
+						<p>Sending data...</p>
+					) : (
+						<>
+							<Link to='../' className='button-text'>
+								Cancel
+							</Link>
+							<button type='submit' className='button'>
+								Update
+							</button>
+						</>
+					)}
+				</EventForm>
+			);
+		}
+	}, [isError, data, error, state, handleSubmit]);
 
 	return <Modal onClose={handleClose}>{content}</Modal>;
 }

@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
@@ -12,33 +13,32 @@ export default function NewEventsSection() {
 		staleTime: 5000,
 	});
 
-	let content;
+	const content = useMemo(() => {
+		if (isPending) {
+			return <LoadingIndicator />;
+		}
 
-	if (isPending) {
-		content = <LoadingIndicator />;
-	}
+		if (isError) {
+			return (
+				<ErrorBlock
+					title='An error occurred'
+					message={error.info?.message || "Failed to fetch ev"}
+				/>
+			);
+		}
 
-	if (isError) {
-		content = (
-			<ErrorBlock
-				title='An error occurred'
-				message={error.info?.message || "Failed to fetch ev"}
-			/>
-		);
-	}
-
-	if (data) {
-		content = (
-			<ul className='events-list'>
-				{data.map((event) => (
-					<li key={event.id}>
-						<EventItem event={event} />
-					</li>
-				))}
-			</ul>
-		);
-	}
-
+		if (data) {
+			return (
+				<ul className='events-list'>
+					{data.map((event) => (
+						<li key={event.id}>
+							<EventItem event={event} />
+						</li>
+					))}
+				</ul>
+			);
+		}
+	}, [isPending, isError, data, error]);
 	return (
 		<section className='content-section' id='new-events-section'>
 			<header>

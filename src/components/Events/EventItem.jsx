@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default function EventItem({ event }) {
 	const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
@@ -9,7 +12,10 @@ export default function EventItem({ event }) {
 	});
 	return (
 		<article className='event-item'>
-			<img src={`http://localhost:3000/${event.image}`} alt={event.title} />
+			<img
+				src={`${process.env.REACT_APP_API_URL}/${event.image}`}
+				alt={event.title}
+			/>
 			<div className='event-item-content'>
 				<div>
 					<h2>{event.title}</h2>
