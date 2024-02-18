@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
-
 import bodyParser from "body-parser";
 import express from "express";
 
 const app = express();
+const timeoutDuration = 1000;
 
 app.use(bodyParser.json());
 app.use(express.static("public"));
@@ -20,6 +20,18 @@ app.use((req, res, next) => {
 	);
 	next();
 });
+
+// Funkcja sprawdzająca, czy wszystkie wymagane pola są uzupełnione
+function areAllFieldsFilled(event) {
+	return (
+		event.title?.trim() ||
+		event.description?.trim() ||
+		event.date?.trim() ||
+		event.time?.trim() ||
+		event.image?.trim() ||
+		event.location?.trim()
+	);
+}
 
 app.get("/events", async (req, res) => {
 	const { max, search } = req.query;
@@ -71,7 +83,7 @@ app.get("/events/:id", async (req, res) => {
 
 	setTimeout(() => {
 		res.json({ event });
-	}, 1000);
+	}, timeoutDuration);
 });
 
 app.post("/events", async (req, res) => {
@@ -81,14 +93,8 @@ app.post("/events", async (req, res) => {
 		return res.status(400).json({ message: "Event is required" });
 	}
 
-	if (
-		!event.title?.trim() ||
-		!event.description?.trim() ||
-		!event.date?.trim() ||
-		!event.time?.trim() ||
-		!event.image?.trim() ||
-		!event.location?.trim()
-	) {
+	// Sprawdzenie czy wszystkie wymagane pola są uzupełnione
+	if (!areAllFieldsFilled(event)) {
 		return res.status(400).json({ message: "Invalid data provided." });
 	}
 
@@ -115,14 +121,8 @@ app.put("/events/:id", async (req, res) => {
 		return res.status(400).json({ message: "Event is required" });
 	}
 
-	if (
-		!event.title?.trim() ||
-		!event.description?.trim() ||
-		!event.date?.trim() ||
-		!event.time?.trim() ||
-		!event.image?.trim() ||
-		!event.location?.trim()
-	) {
+	// Sprawdzenie czy wszystkie wymagane pola są uzupełnione
+	if (!areAllFieldsFilled(event)) {
 		return res.status(400).json({ message: "Invalid data provided." });
 	}
 
@@ -144,7 +144,7 @@ app.put("/events/:id", async (req, res) => {
 
 	setTimeout(() => {
 		res.json({ event: events[eventIndex] });
-	}, 1000);
+	}, timeoutDuration);
 });
 
 app.delete("/events/:id", async (req, res) => {
@@ -165,7 +165,7 @@ app.delete("/events/:id", async (req, res) => {
 
 	setTimeout(() => {
 		res.json({ message: "Event deleted" });
-	}, 1000);
+	}, timeoutDuration);
 });
 
 app.listen(3000, () => {
