@@ -21,7 +21,7 @@ export default function ImagePicker({ images, selectedImage, onSelect }) {
 						onClick={() => onSelect(image.path)}
 						className={selectedImage === image.path ? "selected" : undefined}>
 						<img
-							src={`http://localhost:3000/${image.path}`}
+							src={`${import.meta.env.VITE_REACT_APP_API_URL}/${image.path}`}
 							alt={image.caption}
 						/>
 					</motion.li>

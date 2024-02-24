@@ -93,7 +93,7 @@ export default function EventDetails() {
 					<div id='event-details-content'>
 						<motion.img
 							whileHover={{ scale: 1.1 }}
-							src={`http://localhost:3000/${data.image}`}
+							src={`${import.meta.env.VITE_REACT_APP_API_URL}/${data.image}`}
 							alt={data.title}
 						/>
 						<div id='event-details-info'>
