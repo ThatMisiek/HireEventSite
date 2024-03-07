@@ -6,10 +6,6 @@ import { AnimatePresence } from "framer-motion";
 function SignUp() {
 	const ctx = useContext(AuthContext);
 
-	return (
-		<>
-			<AnimatePresence>{!ctx.isLoggedIn && <Login />}</AnimatePresence>
-		</>
-	);
+	return <AnimatePresence>{!ctx.isLoggedIn && <Login />}</AnimatePresence>;
 }
 export default SignUp;

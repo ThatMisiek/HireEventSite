@@ -48,11 +48,10 @@ const router = createBrowserRouter([
 			},
 		],
 	},
-	
 ]);
 
 function App() {
-const ctx = useContext(AuthContext);
+	const ctx = useContext(AuthContext);
 
 	return (
 		<QueryClientProvider client={queryClient}>
